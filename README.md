@@ -1,2 +1,2 @@
-# Cosc401
-Machine learning Assgnments
+# Cosc 401
+Machine learning Assignment
