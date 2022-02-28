@@ -45,7 +45,7 @@ def f(element):
 def version_space(H, D):
     VS = set()
     for h in H:
-        if all(h(x) == y for x, y in D):  # consistent(h, D) check
+        if all(h(x) == y for x, y in D):  # consistent(h, D) check 需要h 满足所有的 training data
             VS.add(h)
     return VS
 
@@ -71,6 +71,9 @@ if __name__ == "__main__":
         break
     else:
         print("OK")
+
+
+
 
     D = {
         ((False, True), False),
@@ -104,4 +107,4 @@ if __name__ == "__main__":
 
     H = {h1, h2, h3, h4, h5, h6}
     VS = version_space(H, D)
-    print(sorted(h.__name__ for h in VS))
+    print(sorted(h.__name__ for h in VS))  # print h function name
