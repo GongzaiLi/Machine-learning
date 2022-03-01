@@ -12,6 +12,7 @@ if and only if x is within or on the boundary of the corresponding rectangle.
 Certain encodings allow certain functions to be computed more efficiently. 
 For example, with the rectangle encoding presented here, the function "less general or equal to" 
 can be computed without iterating over the elements of the input space.
+某些编码允许某些函数更有效地被计算出来。例如，用这里介绍的矩形编码，可以计算 "小于等于 "的函数，而不需要对输入空间的元素进行迭代。
 """
 
 def decode(code):
