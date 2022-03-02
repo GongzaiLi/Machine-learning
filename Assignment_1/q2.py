@@ -34,10 +34,7 @@ from itertools import *
 
 
 def all_possible_functions(X):
-    """
-    :param X: an input space with two elements
-    :return: all possible functions == functions in a set
-    """
+
     supp_h = set()
     for i in range(2 ** len(X)):  # F = 2^|X|
         for j in combinations(X, i):
@@ -47,10 +44,40 @@ def all_possible_functions(X):
     return F
 
 
+
 def f(element):
     def f_sub(x):
         return x in element
     return f_sub
+
+"""
+对于Calbe 的这个部分告诉我， 就是把所有 green 和 purple 一起的所有情况
+___________
+| G  |  P |
+———————————
+| T  |  T |
+| T  |  F |
+| F  |  T |
+| F  |  F |
+
+这样情况就算是 all possible
+"""
+# def f_factory(return_statement, items):
+#
+#     def f(x):
+#         index = items.index(x)
+#         return return_statement[index]
+#
+#     return f
+#
+#
+# def all_possible_functions(X):
+#     results = []
+#     responses = product(*[[True, False]] * len(X))
+#     for return_statement in responses:
+#         print(return_statement, 11111111111111111)
+#         results.append(f_factory(return_statement, list(X)))
+#     return results
 
 
 if __name__ == "__main__":
@@ -66,16 +93,27 @@ if __name__ == "__main__":
     for image in sorted(images):
         print(image)
 
-    X = {1, 2, 3}
-    F = all_possible_functions(X)
-    print(len(F))
-
-    X = {('red', 'large'), ('green', 'large'), ('red', 'small'),
-         ('green', 'small')}
-    F = all_possible_functions(X)
-    # Let's store the image of each function in F as a tuple
-    images = set()
-    for h in F:
-        images.add(tuple(h(x) for x in X))
-    for image in sorted(images):
-        print(image)
+    # X = {"green", "purple"}  # an input space with two elements
+    # F = all_possible_functions(X)
+    #
+    # # Let's store the image of each function in F as a tuple
+    # images = set()
+    # for h in F:
+    #     images.add(tuple(h(x) for x in X))
+    #
+    # for image in sorted(images):
+    #     print(image)
+    #
+    # X = {1, 2, 3}
+    # F = all_possible_functions(X)
+    # print(len(F))
+    #
+    # X = {('red', 'large'), ('green', 'large'), ('red', 'small'),
+    #      ('green', 'small')}
+    # F = all_possible_functions(X)
+    # # Let's store the image of each function in F as a tuple
+    # images = set()
+    # for h in F:
+    #     images.add(tuple(h(x) for x in X))
+    # for image in sorted(images):
+    #     print(image)
