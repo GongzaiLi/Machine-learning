@@ -56,13 +56,27 @@ def match(code, x):
     return decode(code)(x)
 
 
-####----------------
+"""
+l1 = [1, 2, 3]
+l2 = [3, 4, 5]
+
+list(zip(l1, l2))
+[(1, 3), (2, 4), (3, 5)]
+"""
+
+
 def lge(code_a, code_b):
     """Takes two codes and returns True if code_a is less general or equal
-    to code_b."""
+    to code_b. Complete this for the conjunction of constraints. You do not need to decode the given codes."""
 
-    # Complete this for the conjunction of constraints. You do not need to
-    # decode the given codes.
+    # code_a  <=  code_b  that means code_b more general 其中？ 更general  0 更 special
+
+    more_general = []
+    for a, b in zip(code_a, code_b):
+        # 首先 把两个拿出来 b == ？ 或者
+        mg = b == "?" or (b != "0" and (a == b or a == "0"))
+        more_general.append(mg)
+    return all(more_general)
 
 
 def minimal_generalisations(code, x):
@@ -70,7 +84,12 @@ def minimal_generalisations(code, x):
     codes that are the minimal generalisations of the given code with respect
     to the given input x."""
 
-    # Return an appropriate set
+    h = list(code)
+    for i in range(len(code)):
+        if not match((code[i],), (x[i],)):
+            h[i] = "?" if code[i] != "0" else x[i]
+
+    return {tuple(h)}  # Return an appropriate set
 
 
 def minimal_specialisations(cc, domains, x):
@@ -78,12 +97,35 @@ def minimal_specialisations(cc, domains, x):
     codes that are the minimal specialisations of the given code with respect
     to the given input x."""
 
+    h = []
+    for i in range(len(cc)):
+        if cc[i] == "?":
+            for ele in domains[i]:
+                if x[i] != ele:
+                    cc_new = cc[:i] + (ele,) + cc[i + 1:]
+                    h.append(cc_new)
+        elif cc[i] != "0":
+            cc_new = cc[:i] + ("0",) + cc[i + 1:]
+            h.append(cc_new)
+    return h
+
     # Return an appropriate set
 
 
 """
 The number of elements in the list domains is equal to the number of features (attributes) in the problem. 
 The i-th element is a collection (set or list with no repetition) of values that can be taken by the i-th feature.
+"""
+
+"""
+该difference_update()方法删除两个集合中都存在的项目。
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+
+x.difference_update(y)
+
+print(x)
+{'banana', 'cherry'}
 """
 
 
@@ -98,24 +140,41 @@ def cea_trace(domains, D):
 
     for x, y in D:
         if y:  # if positive # is true
+            # Remove from G any hypotheses that do not match d
             G = {g for g in G if match(g, x)}  # {('?',)}
 
-            i = 0
-            while i == len(S):
-                if not match(S[])
+            for s in list(S):
+                if s not in S:
+                    continue
 
-
-
-
-
-        # Complete
+                if not match(s, x):
+                    S.remove(s)
+                    H = minimal_generalisations(s, x)
+                    # h matches d
+                    # some member of G is more general than h
+                    S.update(tuple([h for h in H if match(h, x) and any(lge(h, g) for g in G)]))
+                    # Remove from S any h that is more general than another hypothesis in S
+                    # 找到所有 s more general than h 放入这个set 里面然后yong difference 删除掉
+                    S.difference_update({s for s in S if any(lge(h, s) for h in S if s != h)})
 
         else:  # if negative
-            print(x)
+            # Remove from S any hypotheses that match d
+            S = {s for s in S if not match(s, x)}
+            for g in list(G):
+                if g not in G:
+                    continue
+                if match(g, x):
+                    G.remove(g)
+                    # h does not match d
+                    # some member of S is more specific than h
+                    H = minimal_specialisations(g, domains, x)
+                    G.update(tuple([h for h in H if not match(h, x) and any(lge(s, h) for s in S)]))
+                    # Remove from G any h that is more specific than another hypothesis in G
+                    G.difference_update({g for g in G if any(lge(h, g) for h in G if g != h)})
 
-    # Complete
-
-    # Append S and G (or their copy) to corresponding trace list
+        # Append S and G (or their copy) to corresponding trace list
+        S_trace.append(copy.deepcopy(S))
+        G_trace.append(copy.deepcopy(G))
 
     return S_trace, G_trace
 
@@ -132,5 +191,31 @@ if __name__ == "__main__":
     S_trace, G_trace = cea_trace(domains, training_examples)
     print(len(S_trace), len(G_trace))
     print(all(type(x) is set for x in S_trace + G_trace))
+    S, G = S_trace[-1], G_trace[-1]
+    print(len(S), len(G))
+
+    domains = [
+        {'T', 'F'}
+    ]
+
+    training_examples = []  # no training examples
+
+    S_trace, G_trace = cea_trace(domains, training_examples)
+    print(len(S_trace), len(G_trace))
+    S, G = S_trace[-1], G_trace[-1]
+    print(len(S), len(G))
+
+    domains = [
+        ('T', 'F'),
+        ('T', 'F'),
+    ]
+
+    training_examples = [
+        (('F', 'F'), True),
+        (('T', 'T'), False),
+    ]
+
+    S_trace, G_trace = cea_trace(domains, training_examples)
+    print(len(S_trace), len(G_trace))
     S, G = S_trace[-1], G_trace[-1]
     print(len(S), len(G))
