@@ -34,7 +34,6 @@ from itertools import *
 
 
 def all_possible_functions(X):
-
     supp_h = set()
     for i in range(2 ** len(X)):  # F = 2^|X|
         for j in combinations(X, i):
@@ -44,11 +43,12 @@ def all_possible_functions(X):
     return F
 
 
-
 def f(element):
     def f_sub(x):
         return x in element
+
     return f_sub
+
 
 """
 对于Calbe 的这个部分告诉我， 就是把所有 green 和 purple 一起的所有情况
