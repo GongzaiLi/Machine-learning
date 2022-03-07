@@ -18,7 +18,7 @@ can be computed without iterating over the elements of the input space.
 def decode(code):
     def h(x):
         x_x = min(code[0], code[2]) <= x[0] <= max(code[0], code[2])  # 两点的x 之间
-        x_y = min(code[0], code[2]) <= x[1] <= max(code[0], code[2])  # 两点的y 之间
+        x_y = min(code[1], code[3]) <= x[1] <= max(code[1], code[3])  # 两点的y 之间
         return x_x and x_y
     return h
 
