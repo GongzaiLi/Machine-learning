@@ -5,7 +5,21 @@
 # by defining the following functions appropriately, you can make CEA work with
 # any representation.
 import copy
+def decode(code):
+    """Takes a code and returns the corresponding hypothesis."""
 
+    def h(x):
+        # Complete this function for the conjunction of constraints
+        # satisfied
+        return all(code[i] != "0" and (code[i] == "?" or code[i] == x[i]) for i in range(len(code)))
+
+    return h
+
+
+def match(code, x):
+    """Takes a code and returns True if the corresponding hypothesis returns
+    True (positive) for the given input."""
+    return decode(code)(x)
 
 def lge(code_a, code_b):
     """Takes two codes and returns True if code_a is less general or equal
@@ -46,7 +60,7 @@ def minimal_generalisations(code, x):
     print(code, x)
     h = list(code)
     for i in range(len(code)):
-        if not more_general(code[i:i + 1], x[i:i + 1]):
+        if not match(code[i:i + 1], x[i:i + 1]):
             if code[i] != '0':
                 h[i] = '?'
             else:
@@ -59,7 +73,7 @@ def generalize_specific(G, S, x):
     for s in list(S):
         if s not in S:
             continue
-        if not more_general(s, x):
+        if not match(s, x):
             S.remove(s)
             H = minimal_generalisations(s, x)
             S.update([h for h in H if any([more_general(g, h) for g in G])])
@@ -90,7 +104,7 @@ def specialize_general(G, S, domains, x):
     for g in list(G):
         if g not in G:
             continue
-        if more_general(g, x):
+        if match(g, x):
             G.remove(g)
             H = minimal_specialisations(g, domains, x)
             G.update([h for h in H if any([more_general(h, s) for s in S])])
@@ -109,11 +123,11 @@ def cea_trace(domains, D):
 
     for x, y in D:
         if y:
-            G = {g for g in G if more_general(g, x)}
+            G = {g for g in G if match(g, x)}
             S = generalize_specific(G, S, x)
 
         else:  # if negative
-            S = {s for s in S if not more_general(s, x)}
+            S = {s for s in S if not match(s, x)}
             G = specialize_general(G, S, domains, x)
 
         # Append S and G (or their copy) to corresponding trace list
@@ -139,30 +153,45 @@ if __name__ == "__main__":
     # S_trace, G_trace = cea_trace(domains, training_examples)
     # S, G = S_trace[-1], G_trace[-1]
     # print(len(S) == len(G) == 0)
+    # domains = [
+    #     {"Sunny", "Cloudy", "Rainy"},
+    #     {"Warm", "Cold"},
+    #     {"Normal", "High"},
+    #     {"Strong", "Weak"},
+    #     {"Warm", "Cool"},
+    #     {"Same", "Change"}
+    # ]
+    #
+    # training_examples = [
+    #     (('Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'), True),
+    #     (('Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'), True),
+    #     (('Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'), True),
+    #     # (('Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'), True),
+    # ]
+    #
+    # S_trace, G_trace = cea_trace(domains, training_examples)
+    # print("S_trace")
+    # for s in S_trace:
+    #     print(s)
+    # print("G_trace")
+    # for g in G_trace:
+    #     print(g)
+    #
+    # print(all(type(x) is set for x in S_trace + G_trace))
+    # S, G = S_trace[-1], G_trace[-1]
+    # print(len(S), len(G))
+
     domains = [
-        {"Sunny", "Cloudy", "Rainy"},
-        {"Warm", "Cold"},
-        {"Normal", "High"},
-        {"Strong", "Weak"},
-        {"Warm", "Cool"},
-        {"Same", "Change"}
+        {'red', 'blue'}
     ]
 
     training_examples = [
-        (('Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'), True),
-        (('Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'), True),
-        (('Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'), True),
-        # (('Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'), True),
+        (('red',), True)
     ]
 
     S_trace, G_trace = cea_trace(domains, training_examples)
-    print("S_trace")
-    for s in S_trace:
-        print(s)
-    print("G_trace")
-    for g in G_trace:
-        print(g)
-
+    print(len(S_trace), len(G_trace))
     print(all(type(x) is set for x in S_trace + G_trace))
     S, G = S_trace[-1], G_trace[-1]
     print(len(S), len(G))
+
