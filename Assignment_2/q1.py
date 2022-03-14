@@ -26,7 +26,8 @@ callable (in this case a function).
 """
 
 """
-DT node 通过一个decision 这个decision 可以是 一个true false 或者是告诉你通往 children 的节点。一直找到决策树最底层的决策。最后return。
+DT node 通过一个decision 这个decision 可以是 一个true false 或者是告诉你通往 children 的节点。一直找到决策树最底层的决策。最后return。 
+这个children 不一定只有一个。通过decision得到下一个节点。
 """
 
 
