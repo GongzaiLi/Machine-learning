@@ -5,6 +5,8 @@
 # by defining the following functions appropriately, you can make CEA work with
 # any representation.
 import copy
+
+
 def decode(code):
     """Takes a code and returns the corresponding hypothesis."""
 
@@ -21,6 +23,7 @@ def match(code, x):
     True (positive) for the given input."""
     return decode(code)(x)
 
+
 def lge(code_a, code_b):
     """Takes two codes and returns True if code_a is less general or equal
         to code_b. Complete this for the conjunction of constraints. You do not need to decode the given codes."""
@@ -30,7 +33,7 @@ def lge(code_a, code_b):
     more_general = []
     for a, b in zip(code_a, code_b):
         # 首先 把两个拿出来 b == ？ 或者
-        mg = b == "?" or (b != "0" and (a == b or a == "0"))
+        mg = b == "?" or a == b or a == "0"  # b == "?" or (b != "0" and (a == b or a == "0"))
         more_general.append(mg)
     return all(more_general)
 
@@ -194,4 +197,3 @@ if __name__ == "__main__":
     print(all(type(x) is set for x in S_trace + G_trace))
     S, G = S_trace[-1], G_trace[-1]
     print(len(S), len(G))
-
