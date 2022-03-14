@@ -43,7 +43,7 @@ def minimal_generalisations(code, x):
     """Takes a code (corresponding to a hypothesis) and returns the set of all
     codes that are the minimal generalisations of the given code with respect
     to the given input x."""
-
+    print(code, x)
     h = list(code)
     for i in range(len(code)):
         if not more_general(code[i:i + 1], x[i:i + 1]):
@@ -51,6 +51,7 @@ def minimal_generalisations(code, x):
                 h[i] = '?'
             else:
                 h[i] = x[i]
+    print([tuple(h)], 888888888888888888)
     return [tuple(h)]
 
 
@@ -81,6 +82,7 @@ def minimal_specialisations(cc, domains, x):
         elif cc[i] != '0':
             cc_new = cc[:i] + ("0",) + cc[i + 1:]
             h.append(cc_new)
+    print(h, 11111111111111111111)
     return h
 
 
@@ -124,16 +126,43 @@ def cea_trace(domains, D):
 if __name__ == "__main__":
     # A case where the target function is not in H
 
+    # domains = [
+    #     {'red', 'green', 'blue'}
+    # ]
+    #
+    # training_examples = [
+    #     (('red',), True),
+    #     (('green',), True),
+    #     (('blue',), False),
+    # ]
+    #
+    # S_trace, G_trace = cea_trace(domains, training_examples)
+    # S, G = S_trace[-1], G_trace[-1]
+    # print(len(S) == len(G) == 0)
     domains = [
-        {'red', 'green', 'blue'}
+        {"Sunny", "Cloudy", "Rainy"},
+        {"Warm", "Cold"},
+        {"Normal", "High"},
+        {"Strong", "Weak"},
+        {"Warm", "Cool"},
+        {"Same", "Change"}
     ]
 
     training_examples = [
-        (('red',), True),
-        (('green',), True),
-        (('blue',), False),
+        (('Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'), True),
+        (('Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'), True),
+        (('Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'), True),
+        # (('Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'), True),
     ]
 
     S_trace, G_trace = cea_trace(domains, training_examples)
+    print("S_trace")
+    for s in S_trace:
+        print(s)
+    print("G_trace")
+    for g in G_trace:
+        print(g)
+
+    print(all(type(x) is set for x in S_trace + G_trace))
     S, G = S_trace[-1], G_trace[-1]
-    print(len(S) == len(G) == 0)
+    print(len(S), len(G))
