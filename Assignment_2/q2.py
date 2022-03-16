@@ -44,7 +44,7 @@ def partition_by_feature_value(dataset, feature_index):
         # 找到对应的特征 储存位置
         v = feature_vector[feature_index]
         return list(p.keys()).index(v)
-
+    print(p, "here is p")
     return f, list(p.values())
 
 
