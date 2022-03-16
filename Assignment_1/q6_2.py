@@ -184,16 +184,34 @@ if __name__ == "__main__":
     # S, G = S_trace[-1], G_trace[-1]
     # print(len(S), len(G))
 
+    #
+    # domains = [
+    #     {'red', 'blue'}
+    # ]
+    #
+    # training_examples = [
+    #     (('red',), True)
+    # ]
+    #
+    # S_trace, G_trace = cea_trace(domains, training_examples)
+    # print(len(S_trace), len(G_trace))
+    # print(all(type(x) is set for x in S_trace + G_trace))
+    # S, G = S_trace[-1], G_trace[-1]
+    # print(len(S), len(G))
+
+    # A case where the target function is not in H
+
     domains = [
-        {'red', 'blue'}
+        ('T', 'F'),
+        ('T', 'F'),
     ]
 
     training_examples = [
-        (('red',), True)
+        (('F', 'F'), True),
+        (('T', 'T'), False),
     ]
 
     S_trace, G_trace = cea_trace(domains, training_examples)
     print(len(S_trace), len(G_trace))
-    print(all(type(x) is set for x in S_trace + G_trace))
     S, G = S_trace[-1], G_trace[-1]
     print(len(S), len(G))
