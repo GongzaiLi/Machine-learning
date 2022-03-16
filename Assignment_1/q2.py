@@ -33,22 +33,51 @@ and b) emphasise that different representations can be used to describe input ob
 from itertools import *
 
 
+# def all_possible_functions(X):
+#     supp_h = set()
+#     for i in range(2 ** len(X)):  # F = 2^|X|
+#         for j in combinations(X, i):
+#             print(j)
+#             supp_h.add(j)
+#
+#     F = {f(element) for element in supp_h}
+#     return F
+#
+#
+# def f(element):
+#     def f_sub(x):
+#         return x in element
+#
+#     return f_sub
+#======================================================
+# def f_factory(return_statement, items):
+#     def f(x):
+#         index = items.index(x)
+#         return return_statement[index]
+#     return f
+#
+# def all_possible_functions(X):
+#     results = []
+#     responses = itertools.product(*[[True, False]]*len(X))
+#     for return_statement in responses:
+#         results.append(f_factory(return_statement, list(X)))
+#     return results
+
+from itertools import *
+
 def all_possible_functions(X):
-    supp_h = set()
-    for i in range(2 ** len(X)):  # F = 2^|X|
-        for j in combinations(X, i):
-            supp_h.add(j)
-
-    F = {f(element) for element in supp_h}
-    return F
-
-
-def f(element):
-    def f_sub(x):
-        return x in element
-
-    return f_sub
-
+    all_funcs = list(product([False, True], repeat=len(X)))
+    ans = []
+    for f in all_funcs:
+        def F(fun, x_item):
+            def h(x):
+                print(fun, x_item, 222222222222)
+                index = x_item.index(x)
+                print(index, 3333333)
+                return fun[index]
+            return h
+        ans.append(F(f, list(X)))
+    return ans
 
 """
 对于Calbe 的这个部分告诉我， 就是把所有 green 和 purple 一起的所有情况
