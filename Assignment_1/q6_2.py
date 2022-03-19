@@ -110,6 +110,7 @@ def specialize_general(G, S, domains, x):
         if match(g, x):
             G.remove(g)
             H = minimal_specialisations(g, domains, x)
+            print(H, len(H), 2222222222222222222)
             G.update([h for h in H if any([more_general(h, s) for s in S])])
             G.difference_update([h for h in G if any([more_general(g, h) for g in G if h != g])])
     return G
@@ -156,33 +157,34 @@ if __name__ == "__main__":
     # S_trace, G_trace = cea_trace(domains, training_examples)
     # S, G = S_trace[-1], G_trace[-1]
     # print(len(S) == len(G) == 0)
-    # domains = [
-    #     {"Sunny", "Cloudy", "Rainy"},
-    #     {"Warm", "Cold"},
-    #     {"Normal", "High"},
-    #     {"Strong", "Weak"},
-    #     {"Warm", "Cool"},
-    #     {"Same", "Change"}
-    # ]
-    #
-    # training_examples = [
-    #     (('Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'), True),
-    #     (('Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'), True),
-    #     (('Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'), True),
-    #     # (('Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'), True),
-    # ]
-    #
-    # S_trace, G_trace = cea_trace(domains, training_examples)
-    # print("S_trace")
-    # for s in S_trace:
-    #     print(s)
-    # print("G_trace")
-    # for g in G_trace:
-    #     print(g)
-    #
-    # print(all(type(x) is set for x in S_trace + G_trace))
-    # S, G = S_trace[-1], G_trace[-1]
-    # print(len(S), len(G))
+
+    domains = [
+        {"Sunny", "Cloudy", "Rainy"},
+        {"Warm", "Cold"},
+        {"Normal", "High"},
+        {"Strong", "Weak"},
+        {"Warm", "Cool"},
+        {"Same", "Change"}
+    ]
+
+    training_examples = [
+        (('Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'), True),
+        (('Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'), True),
+        (('Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'), False),
+        (('Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'), True),
+    ]
+
+    S_trace, G_trace = cea_trace(domains, training_examples)
+    print("S_trace")
+    for s in S_trace:
+        print(s)
+    print("G_trace")
+    for g in G_trace:
+        print(g)
+
+    print(all(type(x) is set for x in S_trace + G_trace))
+    S, G = S_trace[-1], G_trace[-1]
+    print(len(S), len(G))
 
     #
     # domains = [
@@ -201,17 +203,17 @@ if __name__ == "__main__":
 
     # A case where the target function is not in H
 
-    domains = [
-        ('T', 'F'),
-        ('T', 'F'),
-    ]
-
-    training_examples = [
-        (('F', 'F'), True),
-        (('T', 'T'), False),
-    ]
-
-    S_trace, G_trace = cea_trace(domains, training_examples)
-    print(len(S_trace), len(G_trace))
-    S, G = S_trace[-1], G_trace[-1]
-    print(len(S), len(G))
+    # domains = [
+    #     ('T', 'F'),
+    #     ('T', 'F'),
+    # ]
+    #
+    # training_examples = [
+    #     (('F', 'F'), True),
+    #     (('T', 'T'), False),
+    # ]
+    #
+    # S_trace, G_trace = cea_trace(domains, training_examples)
+    # print(len(S_trace), len(G_trace))
+    # S, G = S_trace[-1], G_trace[-1]
+    # print(len(S), len(G))

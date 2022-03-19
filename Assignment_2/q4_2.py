@@ -91,7 +91,7 @@ def train_tree(data, criterion):
     classes = list(set([d[-1] for d in data]))
     if len(classes) == 1: # if all examples are in one class
         return DTNode(data[0][1])   # return a leaf node with that class label
-    elif len(data[0]) == 0:  # if the set of features is empty
+    elif all(len(d[0]) == 0 for d in data):  # if the set of features is empty
         proportions = [get_proportion(k, data) for k in classes]
         most_common_label = classes[proportions.index(max(proportions))]
         return DTNode(most_common_label)  # return a leaf node with the most common class label
@@ -109,10 +109,12 @@ if __name__ == "__main__":
     print("Question 4")
 
     dataset = [
-        ((True, True), False),
-        ((True, False), True),
-        ((False, True), True),
-        ((False, False), False)
+        ([], False),
+        ([], True),
+        # ((True, True), False),
+        # ((True, False), True),
+        # ((False, True), True),
+        # ((False, False), False)
     ]
     t = train_tree(dataset, misclassification)
     print(t.predict((True, False)))
