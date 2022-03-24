@@ -61,10 +61,12 @@ if __name__ == "__main__":
         ((False, True), True),
         ((False, False), False),
     ]
-    f, p = partition_by_feature_value(dataset, 0)
+    f, p = partition_by_feature_value(dataset, 1)
+    print(p, 1212)
     pprint(sorted(sorted(partition) for partition in p))
 
     partition_index = f((True, True))
+    print(partition_index, 111111111111111111)
     # Everything in the "True" partition for feature 0 is true
     print(all(x[0] == True for x, c in p[partition_index]))
     partition_index = f((False, True))

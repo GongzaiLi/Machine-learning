@@ -49,15 +49,15 @@ def entropy(dataset):
 if __name__ == "__main__":
     print("Question 3")
 
-    data = [
-        ((False, False), False),
-        ((False, True), True),
-        ((True, False), True),
-        ((True, True), False)
-    ]
-    print("{:.4f}".format(misclassification(data)))
-    print("{:.4f}".format(gini(data)))
-    print("{:.4f}".format(entropy(data)))
+    # data = [
+    #     ((False, False), False),
+    #     ((False, True), True),
+    #     ((True, False), True),
+    #     ((True, True), False)
+    # ]
+    # print("{:.4f}".format(misclassification(data)))
+    # print("{:.4f}".format(gini(data)))
+    # print("{:.4f}".format(entropy(data)))
 
     data = [
         ((0, 1, 2), 1),

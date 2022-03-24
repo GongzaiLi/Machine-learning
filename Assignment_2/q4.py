@@ -117,6 +117,8 @@ def get_impurity(criterion, feature_index, dataset):  # G(Qm, Theta)
     if len(partitions) == 1:
         return float('-inf')
 
+    print(partitions, 9999999999999)
+
     for p in partitions:
         H_Qm_theta = criterion(p)
         G_Qm_theta.append((len(p) / Qm) * H_Qm_theta)
@@ -135,7 +137,7 @@ def train_tree(dataset, criterion):
     if len(classes) == 1:  # if all examples are in one class:
         return DTNode(classes[0])  # return a leaf node with that class label;
 
-    elif all(len(data[0]) == 0 for data in dataset):  # elif the set of features is empty:
+    elif any(len(data[0]) == 0 for data in dataset):  # elif the set of features is empty: #todo has some issues
         all_class_label_pmk = [get_pmk(k, dataset) for k in classes]
         max_class_label_index = all_class_label_pmk.index(max(all_class_label_pmk))
         max_class_label = classes[max_class_label_index]
@@ -198,14 +200,14 @@ if __name__ == "__main__":
     print(t.predict(("Overcast", "a", "a", "a")))
     print(t.predict(("Sunny", "Cool", "a", "a")))
 
-    dataset = [
-        ([], False),
-        ([], True),
-        # ((True, True), False),
-        # ((True, False), True),
-        # ((False, True), True),
-        # ((False, False), False)
-    ]
-    t = train_tree(dataset, misclassification)
-    print(t.predict((True, False)))
-    print(t.predict((False, False)))
+    # dataset = [
+    #     ([True], True),
+    #     ([], False),
+    #     # ((True, True), False),
+    #     # ((True, False), True),
+    #     # ((False, True), True),
+    #     # ((False, False), False)
+    # ]
+    # t = train_tree(dataset, misclassification)
+    # print(t.predict((True, False)))
+    # print(t.predict((False, False)))
