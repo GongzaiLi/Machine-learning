@@ -91,7 +91,7 @@ def train_tree(data, criterion):
     classes = list(set([d[-1] for d in data]))
     if len(classes) == 1: # if all examples are in one class
         return DTNode(data[0][1])   # return a leaf node with that class label
-    elif all(len(d[0]) == 0 for d in data):  # if the set of features is empty
+    elif len(data[0][0]) == 0:  # if the set of features is empty
         proportions = [get_proportion(k, data) for k in classes]
         most_common_label = classes[proportions.index(max(proportions))]
         return DTNode(most_common_label)  # return a leaf node with the most common class label
@@ -108,15 +108,23 @@ def train_tree(data, criterion):
 if __name__ == "__main__":
     print("Question 4")
 
-    dataset = [
-        ([], False),
-        ([], True),
-        # ((True, True), False),
-        # ((True, False), True),
-        # ((False, True), True),
-        # ((False, False), False)
-    ]
+    # dataset = [
+    #     ([], False),
+    #     ([], True),
+    #     # ((True, True), False),
+    #     # ((True, False), True),
+    #     # ((False, True), True),
+    #     # ((False, False), False)
+    # ]
+    # t = train_tree(dataset, misclassification)
+    # print(t.predict((True, False)))
+    # print(t.predict((False, False)))
+
+    dataset = []
+    with open('car.data', 'r') as f:
+        for line in f.readlines():
+            out, *features = line.strip().split(",")
+            dataset.append((tuple(features), out))
     t = train_tree(dataset, misclassification)
-    print(t.predict((True, False)))
-    print(t.predict((False, False)))
+
 
