@@ -15,37 +15,41 @@ the first ("extra") value is the intercept.
 import numpy as np
 
 
-def linear_regression(xs, ys):
-    """
-    θ = (X.T * X)^−1 * X.T * y
-    """
-    x_raw_size, x_col_size = xs.shape
-    intercept = np.ones(x_raw_size).reshape(-1, 1)  # 创建一个新的矩阵 intercept term 每个训练数组的第一个x0 为 1 我们设置的
-    X = np.concatenate((intercept, xs), axis=1)  # 将x 和 intercept 合并在一起
-
-    theta = np.matmul(np.matmul(np.linalg.inv(np.matmul(X.T, X)), X.T), ys)
-    return theta
-
-
-# def linear_regression(x, y):
-#     intercept = np.ones(x.shape[0]).reshape(-1, 1)
-#     x = np.concatenate((intercept, x), axis=1)
-#     print(x, 111111)
-#     print(x.T, 999999999999)
-#     a = np.matmul(x.T, x)
-#     print(a, 22222222222222222222)
-#     c = np.linalg.inv(a)
-#     print(c, 4444444444444444444)
-#     b = np.matmul(c, x.T)
-#     print(b, 555555555555555555)
-#     theta = np.matmul(np.matmul(np.linalg.inv(np.matmul(x.T, x)), x.T), y)
+# def linear_regression(xs, ys):
+#     """
+#     θ = (X.T * X)^−1 * X.T * y
+#     """
+#     x_raw_size, x_col_size = xs.shape #(Number of rows, col)
+#     intercept = np.ones(x_raw_size).reshape(-1, 1)  # 创建一个新的矩阵 intercept term 每个训练数组的第一个x0 为 1 我们设置的
+#     X = np.concatenate((intercept, xs), axis=1)  # 将x 和 intercept 合并在一起
+#
+#     # theta = np.matmul(np.matmul(np.linalg.inv(np.matmul(X.T, X)), X.T), ys)
+#     theta = np.linalg.inv(X.T @ X) @ X.T @ ys
 #     return theta
+
+
+def linear_regression(x, y):
+    intercept = np.ones(x.shape[0]).reshape(-1, 1)
+    x = np.concatenate((intercept, x), axis=1)
+    print(x, 111111)
+    print(x.T, 999999999999)
+    a = np.matmul(x.T, x)
+    print(a, 22222222222222222222)
+    c = np.linalg.inv(a)
+    print(x.T, 4444444444444444444)
+    b = np.matmul(c, x.T)
+
+    print(b, 555555555555555555)
+
+
+    theta = np.matmul(np.matmul(np.linalg.inv(np.matmul(x.T, x)), x.T), y)
+    return theta
 
 if __name__ == "__main__":
     # print(2)
 
     xs = np.arange(5).reshape((-1, 1))
-    ys = np.arange(1, 11, 2)
+    ys = np.arange(1, 11, 2).reshape((-1, 1))
 
     # print(xs.shape, 12321312)
     print(ys, 23232323)
@@ -57,8 +61,8 @@ if __name__ == "__main__":
     aarray_like Array to be reshaped.
     """
     # np.ones(x.shape[0]).reshape(-1, 1) 创建一个新的数组 shape 是得出具体array的形状怕（5， 1） 5 为
-
-    xs = np.array([[1, 2, 3, 4],
-                   [6, 2, 9, 1]]).T
-    ys = np.array([7, 5, 14, 8]).T
-    print(linear_regression(xs, ys))
+    #
+    # xs = np.array([[1, 2, 3, 4],
+    #                [6, 2, 9, 1]]).T
+    # ys = np.array([7, 5, 14, 8]).T
+    # print(linear_regression(xs, ys))
