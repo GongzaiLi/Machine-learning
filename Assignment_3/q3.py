@@ -28,6 +28,8 @@ if __name__ == "__main__":
     print(functions)
     print(linear_regression(xs, ys, functions))
 
+    print(np.arange(5))
+
 # nate
 #     a = np.array([
 #         [1, 10],
