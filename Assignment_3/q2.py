@@ -30,7 +30,9 @@ import numpy as np
 
 def linear_regression(x, y):
     intercept = np.ones(x.shape[0]).reshape(-1, 1)
-    x = np.concatenate((intercept, x), axis=1)
+    print(x)
+    print(intercept)
+    x = np.concatenate((intercept, x), axis=1)  # 把两个 np.array 和再一起，分别把每个row 的数加入每个row中
     print(x, 111111)
     print(x.T, 999999999999)
     a = np.matmul(x.T, x)
@@ -41,9 +43,9 @@ def linear_regression(x, y):
 
     print(b, 555555555555555555)
 
-
     theta = np.matmul(np.matmul(np.linalg.inv(np.matmul(x.T, x)), x.T), y)
     return theta
+
 
 if __name__ == "__main__":
     # print(2)

@@ -14,10 +14,7 @@ def create_roc_points(classifiers):
     """
     points = dict()
     for label, confusion_matrix in classifiers:
-        TP = confusion_matrix.true_positive
-        FN = confusion_matrix.false_negative
-        FP = confusion_matrix.false_positive
-        TN = confusion_matrix.true_negative
+        TP, FN, FP, TN = confusion_matrix
         TPR = TP / (TP + FN)
         FPR = FP / (FP + TN)
         points[label] = (TPR, FPR)
