@@ -37,6 +37,7 @@ def reestimate_cluster_centroids(points, current_centroids, closest_centroid):
 
     for k in range(len(current_centroids)):
         cluster_k_set = np.array([points[i] for i in range(len(closest_centroid)) if closest_centroid[i] == k])
+        print(cluster_k_set, 1111111111111111111111)
         if len(cluster_k_set) > 0:
             # numpy mean -> https://numpy.org/doc/stable/reference/generated/numpy.mean.html
             new_centroids[k] = cluster_k_set.mean(axis=0)
@@ -71,23 +72,23 @@ if __name__ == '__main__':
     centroids = (np.array([0., 0.]), np.array([1., 1.]))
     for c in k_means(dataset, centroids):
         print(c)
-
-    dataset = np.array([
-        [0.125, 0.125],
-        [0.25, 0.25],
-        [0.75, 0.75],
-        [0.875, 0.875]
-    ])
-    centroids = (np.array([0., 1.]), np.array([1., 0.]))
-    for c in k_means(dataset, centroids):
-        print(c)
-
-    dataset = np.array([
-        [0.1, 0.3],
-        [0.4, 0.6],
-        [0.1, 0.2],
-        [0.2, 0.1]
-    ])
-    centroids = (np.array([2., 5.]),)
-    for c in k_means(dataset, centroids):
-        print(c)
+    #
+    # dataset = np.array([
+    #     [0.125, 0.125],
+    #     [0.25, 0.25],
+    #     [0.75, 0.75],
+    #     [0.875, 0.875]
+    # ])
+    # centroids = (np.array([0., 1.]), np.array([1., 0.]))
+    # for c in k_means(dataset, centroids):
+    #     print(c)
+    #
+    # dataset = np.array([
+    #     [0.1, 0.3],
+    #     [0.4, 0.6],
+    #     [0.1, 0.2],
+    #     [0.2, 0.1]
+    # ])
+    # centroids = (np.array([2., 5.]),)
+    # for c in k_means(dataset, centroids):
+    #     print(c)
